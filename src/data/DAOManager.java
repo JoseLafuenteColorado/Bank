@@ -3,6 +3,7 @@ package data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import exceptions.DAOException;
 
 public class DAOManager {
   private Connection connection;
@@ -26,14 +27,14 @@ public class DAOManager {
     throw new DAOException("No existe conexión con la Base de Datos.");
   }
 
-  public AccountDAO getCurrentAccountDAO() throws DAOException {
+  public AccountDAO getAccountDAO() throws DAOException {
     if(connection != null){
       return new AccountDAOSql(connection);
     }
     throw new DAOException("No existe conexión con la Base de Datos.");
   }
   
-  public MovementDAO getCustomerAccountDAO() throws DAOException {
+  public MovementDAO getMovementDAO() throws DAOException {
     if(connection != null) {
       return new MovementDAOSql(connection);
     }

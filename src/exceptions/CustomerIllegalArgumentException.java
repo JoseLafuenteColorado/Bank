@@ -1,4 +1,5 @@
-package util;
+package exceptions;
+
 
 
 public class CustomerIllegalArgumentException extends RuntimeException {
