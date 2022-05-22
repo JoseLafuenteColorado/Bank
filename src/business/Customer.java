@@ -1,8 +1,10 @@
 package business;
 
-import util.CustomerIllegalArgumentException;
-import static util.Util.*;
+import static util.Util.dniIsOk;
+import static util.Util.formatDni;
+import static util.Util.stringIsOk;
 import java.util.Objects;
+import exceptions.CustomerIllegalArgumentException;
 
 public class Customer {
   private String dni;

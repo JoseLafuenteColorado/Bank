@@ -54,7 +54,7 @@ public class CustomerDAOSql implements CustomerDAO{
   @Override
   public Customer get(String dni) throws DAOException {
     dni = Util.formatDni(dni);
-    String sql = "SELECT * customers WHERE dni = '" + dni + "'";
+    String sql = "SELECT * FROM customers WHERE dni = '" + dni + "'";
 
     try {
       Statement statement = connection.createStatement();

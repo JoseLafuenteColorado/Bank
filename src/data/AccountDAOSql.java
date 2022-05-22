@@ -45,36 +45,18 @@ public class AccountDAOSql implements AccountDAO{
 
 
   @Override
-  public void depositMoney(Account account) throws DAOException {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void withdrawMoney(Account account) throws DAOException {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void transferMoney(Account account) throws DAOException {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
   public Account get(int number) throws DAOException {
-    String sql = "SELECT * FROM accounts CROSS JOIN customers ON accounts.dni= customers.dni WHERE accounts.dni= '" + number + "'";
+    String sql = "SELECT * FROM accounts WHERE number = '" + number + "'";
     try (Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql)) {
       if (!resultSet.next()) {
-        throw new DAOException("No exsite la cuenta: " + number);
+        throw new DAOException("No existe la cuenta: " + number);
       }
 
-      Customer customer = new Customer(resultSet.getString("dni"), resultSet.getString("name"), resultSet.getString("address"),
-          resultSet.getString("phone"));
-      return new Account(resultSet.getInt("number"), customer, 
-          resultSet.getInt("active"));
+      /*Customer customer = new Customer(resultSet.getString("dni"), resultSet.getString("name"), resultSet.getString("address"),
+          resultSet.getString("phone"));*/
+      return new Account(resultSet.getInt("number"), resultSet.getString("dni"), 
+          resultSet.getInt("stage"));
     } catch (SQLException e) {
       throw new DAOException(e);
     }
@@ -111,5 +93,7 @@ public class AccountDAOSql implements AccountDAO{
       throw new DAOException(e);
     }
   }
+
+  
 
 }

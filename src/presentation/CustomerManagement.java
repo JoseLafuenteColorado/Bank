@@ -1,14 +1,14 @@
 package presentation;
 
+import static util.Util.readStr;
+import static util.Util.formatDni;
 import business.Customer;
 import business.CustomerManager;
 import data.DAOManager;
 import exceptions.CustomerIllegalArgumentException;
 import exceptions.DAOException;
 import util.Menu;
-import util.Util;
-import static util.Menu.*;
-import static util.Util.*;
+
 
 public class CustomerManagement {
   private CustomerManager customerManager;
@@ -99,7 +99,7 @@ public class CustomerManagement {
   
   private void viewCustomer() {
     try {
-      String dni = formatDNI(readStr("Introduce el DNI del cliente a mostrar"));
+      String dni = formatDni(readStr("Introduce el DNI del cliente a mostrar"));
       Customer customer = customerManager.get(dni);
       System.out.println(customer);
     } 
@@ -112,7 +112,7 @@ public class CustomerManagement {
   }
   
   private static Menu createMenu() {
-    return new Menu("\nGestiBank (Gestión de clientes)", "Nuevo cliente", "Dar de baja a un cliente", 
+    return new Menu("\nGestión de Banco (Gestión de clientes)", "Nuevo cliente", "Dar de baja a un cliente", 
         "Editar cliente", "Ver clientes", "Mostrar a un cliente", "Terminar");
   }
 
