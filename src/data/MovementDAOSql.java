@@ -4,13 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.FormatStyle;
-import java.util.ArrayList;
 import java.util.List;
 import business.Movement;
-import business.MovementManager;
 import exceptions.DAOException;
 
 public class MovementDAOSql implements MovementDAO{
@@ -41,77 +36,20 @@ public class MovementDAOSql implements MovementDAO{
   }
 
 
-  /*
+  
+  
   @Override
-  public List<Movement> list(String filterA, String filterB) throws DAOException {
-    String sql = "SELECT *"
-    try(Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql)){
-
-      List<Movement> list = new ArrayList<>();
-      while(resultSet.next()) {
-        LocalDateTime dateTime = LocalDateTime.now();
-        String day = resultSet.getString("date").substring(0, 4);
-        String month;
-        String year;
-        String hour;
-        String minute;
-        String second;
-        list.add(new Movement(resultSet.getInt("numberAccount"), resultSet.getInt("amount"),  dateTime,
-            MovementType.valueOf(resultSet.getString("type")), 
-            resultSet.getInt("transferAccount"), resultSet.getString("concept")));
-      }
-    } catch(SQLException e) {
-      throw new DAOException(e);
-    }
-    return null;
-  } */
-
-  @Override
-  public int getBalance(int numberAccount) throws DAOException {
-    String sql = "SELECT SUM(amount) AS 'balance' FROM movements WHERE numberAccount = '" + numberAccount + "'";
+  public int balance(int numberAccount) throws SQLException, DAOException {
+    String sql = "Select SUM(amount) AS balance FROM movements WHERE numberAccount = '" + numberAccount + "' GROUP BY numberAccount";
     try (Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql)) {
-      int balance = resultSet.getInt("balance");
-      statement.executeUpdate(sql);
+      if (!resultSet.next()) {
+        throw new DAOException("No existe la cuenta: " + numberAccount);
+      }
+      int balance;
+      balance = resultSet.getInt("balance");
       return balance;
-    } catch (SQLException e) {
-      throw new DAOException(e);
     }
-  }
-
-  @Override
-  public void deposit(int numberAccount, int amount, String concept) throws DAOException {
-    LocalDateTime dateTime = LocalDateTime.now();
-    String dateTimeString = dateTime.format(DateTimeFormatted(FormatStyle.FULL));
-    LocalDateTime parsedDLocalDateTime = LocalDate.parse(dateTime, null);
-    
-    
-    int lastNumberMovement = Movement.getLastNumberMovement();
-    if (concept.length() == 0) {
-      String conceptNull = "sin concepto";
-    }
-    String conceptNull = concept;
-    int transferAccountNumber = 0;
-    String sql = "INSERT INTO movements VALUES("+ lastNumberMovement + ", " + numberAccount + ", " + amount + ", " + 
-        dateTime.toString() + ", INGRESO, " + transferAccountNumber + ", " + conceptNull + ")";
-    executeUpdate(sql);
-  }
-
-
-
-  @Override
-  public void withdraw(int numberAccount, int amount, String concept) throws DAOException {
-    LocalDateTime dateTime = LocalDateTime.now();
-    int amountNeg = amount * (-1);
-    if (concept.length() == 0) {
-      String conceptNull = "sin concepto";
-    }
-    String conceptNull = concept;
-    int transferAccountNumber = 0;
-    String sql = "INSERT INTO movements VALUES(" + numberAccount + ", " + amount + ", " + 
-        dateTime.toString() + ", RETIRADA, " + transferAccountNumber + ", " + conceptNull + ")";
-    executeUpdate(sql);
   }
 
   @Override
@@ -122,7 +60,7 @@ public class MovementDAOSql implements MovementDAO{
       if (!resultSet.next()) {
         throw new DAOException("No existe movimientos para esa cuenta");
       }
-      return new Movement(resultSet.getInt("numberAccount"), resultSet.getInt("amount"), resultSet.getString("dateTime"), 
+      return new Movement(resultSet.getInt("numberMovement"),resultSet.getInt("numberAccount"), resultSet.getInt("amount"), resultSet.getString("dateTime"), 
           resultSet.getString("type"), resultSet.getInt("transferAccountNumber"), resultSet.getString("concept"));
     } catch (SQLException e) {
       throw new DAOException(e);

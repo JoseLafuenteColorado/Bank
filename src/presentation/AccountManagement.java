@@ -13,6 +13,7 @@ import data.DAOManager;
 import exceptions.DAOException;
 import util.Menu;
 import static util.Util.readStr;
+import java.sql.SQLException;
 import static util.Util.readInt;
 
 public class AccountManagement {
@@ -112,23 +113,23 @@ public class AccountManagement {
     //System.out.println("El saldo actualizado es :" + balance);
   }
 
-  private void withdrawMoney() throws DAOException {
+  private void withdrawMoney() throws Exception {
     int numberAccount = readInt("Introduce el número de cuenta ");
     int amount = readInt("Introduce el importe a retirar ");
     String concept = readStr("Introduce el concepto ");
-    movementManager.withdraw(numberAccount, amount, concept);
-    int balance = movementManager.getBalance(numberAccount);
-    System.out.println("El saldo actualizado es :" + balance);
+    transactionsManager.withdraw(numberAccount, amount, concept);
+    //int balance = movementManager.balance(numberAccount);
+    //System.out.println("El saldo actualizado es :" + balance);
   }
 
-  private void transferMoney() throws DAOException {
+  private void transferMoney() throws DAOException, SQLException {
     int numberAccount = readInt("Introduce el número de cuenta ");
     int amount = readInt("Introduce el importe a transeferir ");
     int transferAccountNumber = readInt("Introduce el número de cuenta para hacerle la transferencia ");
     String concept = readStr("Introduce el concepto ");
-    movementManager.withdraw(numberAccount, amount, concept);
-    movementManager.deposit(transferAccountNumber, amount, concept);
-    int balance = movementManager.getBalance(numberAccount);
+    //movementManager.withdraw(numberAccount, amount, concept);
+    //movementManager.deposit(transferAccountNumber, amount, concept);
+    int balance = movementManager.balance(numberAccount);
     System.out.println("El saldo actualizado es :" + balance);
 
   }

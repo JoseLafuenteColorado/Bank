@@ -10,7 +10,6 @@ import exceptions.DAOException;
 
 public interface CustomerDAO {
   public void add(Customer customer) throws DAOException;
-  public void close() throws DAOException;
   public void set(Customer customer) throws DAOException;
   public Customer get(String dni) throws DAOException;
   public void remove(String dni) throws DAOException;

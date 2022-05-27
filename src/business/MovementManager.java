@@ -1,5 +1,6 @@
 package business;
 
+import java.sql.SQLException;
 import data.DAOManager;
 import data.MovementDAO;
 import exceptions.DAOException;
@@ -23,16 +24,8 @@ public class MovementManager {
     return movementDAO.get(numberAccount);
   }
 
-  public void deposit(int numberAccount, int amount, String concept) throws DAOException {
-    movementDAO.deposit(numberAccount, amount, concept);
-  }
-  
-  public void withdraw(int numberAccount, int amount, String concept) throws DAOException {
-    movementDAO.withdraw(numberAccount, amount, concept);
-  }
-  
-  public int getBalance(int numberAccount) throws DAOException {
-    return movementDAO.getBalance(numberAccount);
+  public int balance(int numberAccount) throws DAOException, SQLException {
+    return movementDAO.balance(numberAccount);
   }
   
   

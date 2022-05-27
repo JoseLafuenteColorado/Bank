@@ -46,17 +46,7 @@ public class CustomerDAOSql implements CustomerDAO{
     executeUpdate(sql);
   }
 
-  /**
-   * Cierra la conexión a la BBDD.
-   */
-  @Override
-  public void close() throws DAOException {
-    try {
-      connection.close();
-    } catch (SQLException e) {
-      throw new DAOException(e);
-    }
-  }
+  
 
   /**
    * Modifica los datos de un cliente en la BBDD

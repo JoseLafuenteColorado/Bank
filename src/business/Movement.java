@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 
 public class Movement {
-  private static int lastNumberMovement = 0;
+  private int numberMovement;
   private int numberAccount;
   private int amount;
   private LocalDateTime dateTime;
@@ -12,6 +12,28 @@ public class Movement {
   private int transferAccountNumber;
   private String concept;
   private String dateTimeString;
+  
+  public Movement(int numberMovement, int numberAccount, int amount, LocalDateTime dateTime, String type,
+      int transferAccountNumber, String concept) {
+    this.numberMovement = numberMovement;
+    this.numberAccount = numberAccount;
+    this.amount = amount;
+    this.dateTime = LocalDateTime.now();
+    this.type = type;
+    this.transferAccountNumber = transferAccountNumber;
+    this.concept = concept;
+  }
+  
+  public Movement(int numberMovement, int numberAccount, int amount, String dateTimeString, String type,
+      int transferAccountNumber, String concept) {
+    this.numberMovement = numberMovement;
+    this.numberAccount = numberAccount;
+    this.amount = amount;
+    this.dateTimeString = dateTimeString;
+    this.type = type;
+    this.transferAccountNumber = transferAccountNumber;
+    this.concept = concept;
+  }
   
   public Movement(int numberAccount, int amount, String dateTimeString, String type,
       int transferAccountNumber, String concept) {
@@ -21,7 +43,6 @@ public class Movement {
     this.type = type;
     this.transferAccountNumber = transferAccountNumber;
     this.concept = concept;
-    lastNumberMovement++;
   }
 
   public Movement(int numberAccount, int amount, LocalDateTime dateTime, String type,
@@ -32,7 +53,6 @@ public class Movement {
     this.type = type;
     this.transferAccountNumber = transferAccountNumber;
     this.concept = concept;
-    lastNumberMovement++;
   }
   
   public Movement(int numberAccount, int amount, LocalDateTime dateTime, String type,
@@ -42,7 +62,6 @@ public class Movement {
    this.dateTime = LocalDateTime.now();
    this.type = type;
    this.concept = concept;
-   lastNumberMovement++;
  }
   
   public Movement(int numberAccount, int amount, String dateTimeString, String type,
@@ -52,7 +71,6 @@ public class Movement {
    this.dateTimeString = dateTimeString;
    this.type = type;
    this.concept = concept;
-   lastNumberMovement++;
  }
   
   
@@ -96,9 +114,7 @@ public class Movement {
     return dateTimeString;
   }
 
-  public static int getLastNumberMovement() {
-    return lastNumberMovement;
-  }
+  
   
   
   

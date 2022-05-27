@@ -1,6 +1,6 @@
 package business;
 
-import java.sql.SQLException;
+
 
 /**
  * Clase que recibe unos parámetros de la clase TransactionsManagement, y se los pasa al TransactionsDAOSql 
@@ -32,15 +32,13 @@ public class TransactionsManager {
     }
     
     public void withdraw(int numberAccount, int amount, String concept) throws Exception {
-      transactionsDAO.deposit(numberAccount, amount, concept);
+      transactionsDAO.withdraw(numberAccount, amount, concept);
     }
     public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) throws DAOException {
       transactionsDAO.transfer(numberAccount, amount, transferAccountNumber, concept);
     }
     
-    public int balance(int numberAccount) throws SQLException, DAOException {
-      return transactionsDAO.balance(numberAccount);
-    }
+    
     
     
     

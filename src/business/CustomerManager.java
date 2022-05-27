@@ -72,9 +72,6 @@ public class CustomerManager {
     return customerDAO.getCustomers(sql);
   }
   
-  public void close() throws DAOException {
-    customerDAO.close();
-  }
   
   
   

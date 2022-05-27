@@ -7,21 +7,24 @@ package data;
 
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import business.Account;
 import business.Customer;
+import business.Movement;
+import business.Transactions;
 import exceptions.DAOException;
 
 public class TransactionsDAOSql implements TransactionsDAO {
   private Connection connection;
   private Customer customer;
   private Account account;
+  private Transactions transactions;
+  private Movement movement;
 
-  public TransactionsDAOSql( Connection connection) {
+  public TransactionsDAOSql(Connection connection) {
     this.connection = connection;
   }
 
@@ -64,7 +67,7 @@ public class TransactionsDAOSql implements TransactionsDAO {
 
   @Override
   public void withdraw(int numberAccount, int amount, String concept) throws Exception {
-    if (balance(numberAccount) < amount || ammountIsNegative(amount) == false) {
+    if (ammountIsNegative(amount) == false) {
       LocalDateTime dateTime = LocalDateTime.now();
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
       String dateTimeString = dateTime.format(formatter);
@@ -79,25 +82,11 @@ public class TransactionsDAOSql implements TransactionsDAO {
     }
   }
 
+
   @Override
-  public int balance(int numberAccount) throws SQLException, DAOException {
-    String sql = "Select SUM(amount) AS balance FROM movements WHERE numberAccount = '" + numberAccount + "' GROUP BY numberAccount";
-    try (Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql)) {
-      if (!resultSet.next()) {
-        throw new DAOException("No existe la cuenta: " + numberAccount);
-      }
-      int balance;
-      balance = resultSet.getInt("balance");
-      return balance;
-    }
-  }
-
-
-@Override
-public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) {
+  public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) {
   // TODO Auto-generated method stub
 
-}
+  }
 
 }
