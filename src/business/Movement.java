@@ -2,16 +2,18 @@ package business;
 
 import java.time.LocalDateTime;
 
+
 public class Movement {
+  private static int lastNumberMovement = 0;
   private int numberAccount;
   private int amount;
   private LocalDateTime dateTime;
-  private MovementType type;
+  private String type;
   private int transferAccountNumber;
   private String concept;
   private String dateTimeString;
   
-  public Movement(int numberAccount, int amount, String dateTimeString, MovementType type,
+  public Movement(int numberAccount, int amount, String dateTimeString, String type,
       int transferAccountNumber, String concept) {
     this.numberAccount = numberAccount;
     this.amount = amount;
@@ -19,9 +21,10 @@ public class Movement {
     this.type = type;
     this.transferAccountNumber = transferAccountNumber;
     this.concept = concept;
+    lastNumberMovement++;
   }
 
-  public Movement(int numberAccount, int amount, LocalDateTime dateTime, MovementType type,
+  public Movement(int numberAccount, int amount, LocalDateTime dateTime, String type,
       int transferAccountNumber, String concept) {
     this.numberAccount = numberAccount;
     this.amount = amount;
@@ -29,30 +32,36 @@ public class Movement {
     this.type = type;
     this.transferAccountNumber = transferAccountNumber;
     this.concept = concept;
+    lastNumberMovement++;
   }
   
-  public Movement(int numberAccount, int ammount, LocalDateTime dateTime, MovementType type,
+  public Movement(int numberAccount, int amount, LocalDateTime dateTime, String type,
       String concept) {
    this.numberAccount = numberAccount;
-   this.amount = ammount;
+   this.amount = amount;
    this.dateTime = LocalDateTime.now();
    this.type = type;
    this.concept = concept;
+   lastNumberMovement++;
  }
   
-  public Movement(int int1, int int2, String string, String string2, int int3, String string3) {
-    // TODO Auto-generated constructor stub
-  }
-
- 
- 
+  public Movement(int numberAccount, int amount, String dateTimeString, String type,
+      String concept) {
+   this.numberAccount = numberAccount;
+   this.amount = amount;
+   this.dateTimeString = dateTimeString;
+   this.type = type;
+   this.concept = concept;
+   lastNumberMovement++;
+ }
+  
+  
 
   @Override
   public String toString() {
-    return "Movement [numberAccount=" + numberAccount
-        + ", amount=" + amount + ", dateTime=" + dateTime + ", type=" + type
-        + ", transferAccountNumber=" + transferAccountNumber + ", concept=" + concept
-        + ", dateTimeString=" + dateTimeString + "]";
+    return "Movement [numberAccount=" + numberAccount + ", amount=" + amount + ", dateTime="
+        + dateTime + ", type=" + type + ", transferAccountNumber=" + transferAccountNumber
+        + ", concept=" + concept + ", dateTimeString=" + dateTimeString + "]";
   }
 
   public int getNumberMovement() {
@@ -71,7 +80,7 @@ public class Movement {
     return dateTime;
   }
 
-  public MovementType getMovement() {
+  public String getMovement() {
     return type;
   }
 
@@ -86,12 +95,10 @@ public class Movement {
   public String getDateTimeString() {
     return dateTimeString;
   }
-  
-  
-  
-  
-  
-  
+
+  public static int getLastNumberMovement() {
+    return lastNumberMovement;
+  }
   
   
   

@@ -1,4 +1,7 @@
 package business;
+/**
+ * Clase de Cuentas Corrientes
+ */
 
 import java.util.Objects;
 
@@ -6,30 +9,37 @@ public class Account {
   private Customer customer;
   private String dni;
   private int stage;
-  private int number;
+  private int numberAccount;
   
   public Account(Customer customer) {
     this.customer = customer;
     activate();
   }
   
-  public Account(int number, Customer customer, int stage) {
-    this.number = number;
+  public Account(int numberAccount, Customer customer, int stage) {
+    this.numberAccount = numberAccount;
     this.customer = customer;
     this.stage = stage;
   }
   
-  public Account(int number, String dni, int stage) {
-    this.number = number;
+  public Account(int numberAccount, String dni, int stage) {
+    this.numberAccount = numberAccount;
     this.dni = dni;
     this.stage = stage;
   }
   
+  /**
+   * Activa la cuenta
+   */
   private void activate() {
     this.stage = 1;
     
   }
   
+  /**
+   * Comprueba si la cuenta está activa
+   * @return true si está activa y false si no lo está
+   */
   public boolean isActive() {
     if (stage == 1) {
       return true;
@@ -37,6 +47,11 @@ public class Account {
     return false;
   }
 
+  /**
+   * Devuelve un objeto de la clase customer del dni pasado
+   * @param dni
+   * @return customer
+   */
   public Customer getCustomer(String dni) {
     return customer;
   }
@@ -49,8 +64,8 @@ public class Account {
     this.stage = stage;
   }
 
-  public int getNumber() {
-    return number;
+  public int getNumberAccount() {
+    return numberAccount;
   }
   
   public String getDni() {
@@ -60,7 +75,7 @@ public class Account {
 
   @Override
   public int hashCode() {
-    return Objects.hash(number);
+    return Objects.hash(numberAccount);
   }
 
   @Override
@@ -72,12 +87,12 @@ public class Account {
     if (getClass() != obj.getClass())
       return false;
     Account other = (Account) obj;
-    return number == other.number;
+    return numberAccount == other.numberAccount;
   }
 
   @Override
   public String toString() {
-    return "Account [dni=" + dni + ", stage=" + stage + ", number=" + number + "]";
+    return "Account [dni=" + dni + ", stage=" + stage + ", numberAccount=" + numberAccount + "]";
   }
 
   

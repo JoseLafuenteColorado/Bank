@@ -1,5 +1,9 @@
 package business;
 
+/**
+ * Clase de clientes
+ */
+
 import static util.Util.dniIsOk;
 import static util.Util.formatDni;
 import static util.Util.stringIsOk;
@@ -24,6 +28,11 @@ public class Customer {
     return dni;
   }
 
+  /**
+   * con dniIsOk(dni) comprueba que la letra es correcta
+   * con formatDni(dni) comprueba el formato
+   * @param dni
+   */
   public void setDni(String dni) {
     if(dniIsOk(dni)) {
       this.dni = formatDni(dni);
@@ -36,6 +45,10 @@ public class Customer {
     return name;
   }
 
+  /**
+   * stringOk(name) comprueba que el mombre es correcto
+   * @param name
+   */
   public void setName(String name) {
     if(stringIsOk(name)) {
       this.name = name.toUpperCase();
@@ -47,7 +60,10 @@ public class Customer {
   public String getAddress() {
     return address;
   }
-
+/**
+ * comprueba que la dirección es un parámetro correcto.
+ * @param address
+ */
   public void setAddress(String address) {
     if(stringIsOk(address)) {
       this.address = address.toUpperCase();
@@ -59,7 +75,10 @@ public class Customer {
   public String getPhone() {
     return phone;
   }
-
+  /**
+   * Comprueba que el teléfono tienen 8 carácteres y empieza por 679.
+   * @param phone
+   */
   public void setPhone(String phone) {
     if(phone == null || !phone.matches("[679]\\d{8}")){
       throw new CustomerIllegalArgumentException("El teléfono introducido no es válido.");

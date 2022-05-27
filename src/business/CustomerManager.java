@@ -1,5 +1,14 @@
 package business;
 
+/**
+ * Clase que recibe unos parámetros de la clase CustomerManagement, y se los pasa al CustomerDAOSql 
+ * para que pueda hacer la consulta a la BBDD.
+ * 
+ * A su vez, recibe los datos extraidos de la base de datos y se los muestra al CustomerManagement
+ * 
+ * Es el "intermediario" entra capas para la clase Customer.
+ */
+
 import java.util.List;
 import data.CustomerDAO;
 import data.DAOManager;

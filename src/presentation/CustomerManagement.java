@@ -1,5 +1,9 @@
 package presentation;
 
+/**
+ * Programa que gestiona los clientes
+ */
+
 import static util.Util.readStr;
 import static util.Util.formatDni;
 import business.Customer;

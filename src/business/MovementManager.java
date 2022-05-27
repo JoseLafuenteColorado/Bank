@@ -7,6 +7,10 @@ import exceptions.DAOException;
 public class MovementManager {
   private MovementDAO movementDAO;
   
+  public MovementManager(DAOManager daoManager) throws DAOException {
+    this.movementDAO = daoManager.getMovementDAO();
+  }
+
   public void MovementDAO(DAOManager daoManager) throws DAOException {
     this.movementDAO = daoManager.getMovementDAO();
   }

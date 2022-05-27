@@ -1,4 +1,7 @@
 package data;
+/**
+ * Clase que crea los los distintos DAOs a partir de un objeto de la clase Connection
+ */
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,6 +35,13 @@ public class DAOManager {
       return new AccountDAOSql(connection);
     }
     throw new DAOException("No existe conexión con la Base de Datos.");
+  }
+  
+  public TransactionsDAO getTransactionsDAO() throws DAOException {
+    if (connection != null) {
+      return new TransactionsDAOSql(connection);
+    }
+    throw new DAOException("No existe conexión a la base de datos");
   }
   
   public MovementDAO getMovementDAO() throws DAOException {

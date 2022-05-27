@@ -1,5 +1,9 @@
 package data;
 
+/**
+ * Clase que conecta con la BBDD, es la encargada de "traer" los datos y pasárselos al CustomerManager 
+ */
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +21,12 @@ public class CustomerDAOSql implements CustomerDAO{
     this.connection = connection;    
   }
 
+  /**
+   * Ejecuta una consulta a la base de datos
+   * @param sql
+   * @return int si la consulta ha tenido éxito.
+   * @throws DAOException
+   */
   private int executeUpdate(String sql) throws DAOException {
     try {
       Statement statement = connection.createStatement();
@@ -26,6 +36,9 @@ public class CustomerDAOSql implements CustomerDAO{
     }
   }
 
+  /**
+   * Añade un nuevo cliente a la BBDD
+   */
   @Override
   public void add(Customer customer) throws DAOException {
     String sql = "INSERT INTO customers VALUES('" + Util.formatDni(customer.getDni()) + "', '" + customer.getName()
@@ -33,6 +46,9 @@ public class CustomerDAOSql implements CustomerDAO{
     executeUpdate(sql);
   }
 
+  /**
+   * Cierra la conexión a la BBDD.
+   */
   @Override
   public void close() throws DAOException {
     try {
@@ -42,6 +58,9 @@ public class CustomerDAOSql implements CustomerDAO{
     }
   }
 
+  /**
+   * Modifica los datos de un cliente en la BBDD
+   */
   @Override
   public void set(Customer customer) throws DAOException {
     String sql = "UPDATE customers SET name='" + customer.getName() + "', address='" + customer.getAddress() + 
@@ -51,6 +70,9 @@ public class CustomerDAOSql implements CustomerDAO{
     }
   }
 
+  /**
+   * Muestra los datos de un cliente cuando le pasamos el dni
+   */
   @Override
   public Customer get(String dni) throws DAOException {
     dni = Util.formatDni(dni);
@@ -69,6 +91,9 @@ public class CustomerDAOSql implements CustomerDAO{
     }
   }
 
+  /**
+   * Elimina un cliente cuando le pasamos el dni
+   */
   @Override
   public void remove(String dni) throws DAOException {
     dni = Util.formatDni(dni);
@@ -79,11 +104,17 @@ public class CustomerDAOSql implements CustomerDAO{
 
   }
 
+  /**
+   * Crea una lista de Clientes
+   */
   @Override
   public List<Customer> getCustomers() throws DAOException {
     return getCustomers("SELECT * FROM customers");
   }
 
+  /**
+   * Crea una lista de clientes cuando le pasamos un filtro
+   */
   @Override
   public List<Customer> getCustomers(String sql) throws DAOException {
     try {
@@ -100,6 +131,9 @@ public class CustomerDAOSql implements CustomerDAO{
     }
   }
 
+  /**
+   * Comprueba si existe un cliente en la BBDD si le pasamos ese cliente
+   */
   @Override
   public int checkCustomer(Customer customer) throws DAOException {
     String sql = "SELECT * FROM customers WHERE dni = '" + customer.getDni() + "'";
@@ -113,9 +147,6 @@ public class CustomerDAOSql implements CustomerDAO{
     }
   }
 
-  @Override
-  public Customer get(int dni) throws DAOException {
-    return null;
-  }
+ 
 
 }

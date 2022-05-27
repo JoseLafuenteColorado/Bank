@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import business.Movement;
 import business.MovementManager;
-import business.MovementType;
 import exceptions.DAOException;
 
 public class MovementDAOSql implements MovementDAO{
@@ -82,13 +83,18 @@ public class MovementDAOSql implements MovementDAO{
   @Override
   public void deposit(int numberAccount, int amount, String concept) throws DAOException {
     LocalDateTime dateTime = LocalDateTime.now();
+    String dateTimeString = dateTime.format(DateTimeFormatted(FormatStyle.FULL));
+    LocalDateTime parsedDLocalDateTime = LocalDate.parse(dateTime, null);
+    
+    
+    int lastNumberMovement = Movement.getLastNumberMovement();
     if (concept.length() == 0) {
       String conceptNull = "sin concepto";
     }
     String conceptNull = concept;
     int transferAccountNumber = 0;
-    String sql = "INSERT INTO movements VALUES(" + numberAccount + ", " + amount + ", " + 
-        dateTime.toString() + ", \"INGRESO\", " + transferAccountNumber + ", " + conceptNull + ")";
+    String sql = "INSERT INTO movements VALUES("+ lastNumberMovement + ", " + numberAccount + ", " + amount + ", " + 
+        dateTime.toString() + ", INGRESO, " + transferAccountNumber + ", " + conceptNull + ")";
     executeUpdate(sql);
   }
 
@@ -104,7 +110,7 @@ public class MovementDAOSql implements MovementDAO{
     String conceptNull = concept;
     int transferAccountNumber = 0;
     String sql = "INSERT INTO movements VALUES(" + numberAccount + ", " + amount + ", " + 
-        dateTime.toString() + ", \"RETIRADA\", " + transferAccountNumber + ", " + conceptNull + ")";
+        dateTime.toString() + ", RETIRADA, " + transferAccountNumber + ", " + conceptNull + ")";
     executeUpdate(sql);
   }
 
