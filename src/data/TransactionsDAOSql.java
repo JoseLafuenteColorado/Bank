@@ -19,10 +19,7 @@ import exceptions.DAOException;
 
 public class TransactionsDAOSql implements TransactionsDAO {
   private Connection connection;
-  private Customer customer;
-  private Account account;
-  private Transactions transactions;
-  private Movement movement;
+  
 
   public TransactionsDAOSql(Connection connection) {
     this.connection = connection;
@@ -43,13 +40,19 @@ public class TransactionsDAOSql implements TransactionsDAO {
     }
   }
 
+  /**
+   * Realiza un depósito al número de cuenta, con el importe y concepto, pasados por parámetros.
+   * @param int numberAccount, int amount, String concept
+   * @throws DAOException, SQLException
+   * 
+   */
   @Override
   public void deposit(int numberAccount, int amount, String concept) throws Exception {
     ammountIsNegative(amount);
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     String dateTimeString = dateTime.format(formatter);
-    String sql = "INSERT INTO movements (numberAcount, amount, LocalDateTime, type, transferAccountNumber, concept)"
+    String sql = "INSERT INTO movements (numberAcount, amount, dateTime, type, transferAccountNumber, concept)"
         + " VALUES('" + numberAccount + "', '" + amount+ "', '" + dateTimeString + "', ingreso, 0, '" + concept + "')";
     try {
       executeUpdate(sql);
@@ -58,6 +61,12 @@ public class TransactionsDAOSql implements TransactionsDAO {
     }
   }
 
+  /**
+   * Comprueba que el importe pasado no sea negativo
+   * @param amount
+   * @return false
+   * @throws Exception
+   */
   private boolean ammountIsNegative(int amount) throws Exception {
     if (amount <= 0) {
       throw new Exception("El importe tiene que ser mayor que 0");
@@ -85,7 +94,7 @@ public class TransactionsDAOSql implements TransactionsDAO {
 
   @Override
   public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) {
-  // TODO Auto-generated method stub
+ 
 
   }
 

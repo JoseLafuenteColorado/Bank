@@ -35,6 +35,7 @@ public class AccountDAOSql implements AccountDAO{
   }
 
   /**
+   * Comprueba en la BBDD que existe una cuenta cuando le pasamos un número de cuenta
    * @throws SQLException 
    * 
    */

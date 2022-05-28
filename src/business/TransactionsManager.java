@@ -17,13 +17,10 @@ import data.TransactionsDAO;
 import exceptions.DAOException;
 
 public class TransactionsManager {
+  
     private TransactionsDAO transactionsDAO;
     
     public TransactionsManager(DAOManager daoManager) throws DAOException {
-      this.transactionsDAO = daoManager.getTransactionsDAO();
-    }
-    
-    public void TransactionsDAO(DAOManager daoManager) throws DAOException {
       this.transactionsDAO = daoManager.getTransactionsDAO();
     }
     

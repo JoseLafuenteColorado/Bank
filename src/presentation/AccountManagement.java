@@ -59,11 +59,6 @@ public class AccountManagement {
     } while (option != menu.lastOption());
   }
 
-  private Menu createMenu() {
-    return new Menu("Gestión de Banco (Gestión de cuentas)", "Dar de alta", "Dar de baja", "Ingreso en cuenta", 
-        "Sacar dinero", "Realizar transferencia", "Mostrar cuenta", "Terminar");
-  }
-
   private void newAccount() throws Exception {
     try {
       String dni = readStr("Introduce el dni ");
@@ -133,4 +128,11 @@ public class AccountManagement {
     System.out.println("El saldo actualizado es :" + balance);
 
   }
+  
+  private Menu createMenu() {
+    return new Menu("Gestión de Banco (Gestión de cuentas)", "Dar de alta", "Dar de baja", "Ingreso en cuenta", 
+        "Sacar dinero", "Realizar transferencia", "Mostrar cuenta", "Terminar");
+  }
+  
+  
 }
