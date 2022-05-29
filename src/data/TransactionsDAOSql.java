@@ -16,6 +16,7 @@ import exceptions.DAOException;
 public class TransactionsDAOSql implements TransactionsDAO {
   private Connection connection;
   private AccountDAOSql accountDAOSql;
+  private MovementDAOSql movementDAOSql;
 
 
   public TransactionsDAOSql(Connection connection) {
@@ -47,6 +48,7 @@ public class TransactionsDAOSql implements TransactionsDAO {
   public void deposit(int numberAccount, int amount, String concept) throws Exception {
     ammountIsNegative(amount);
     accountDAOSql.isActive(numberAccount);
+    insufficientMoney(numberAccount, amount);
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     String dateTimeString = dateTime.format(formatter);
@@ -81,6 +83,7 @@ public class TransactionsDAOSql implements TransactionsDAO {
   public void withdraw(int numberAccount, int amount, String concept) throws Exception {
     ammountIsNegative(amount);
     accountDAOSql.isActive(numberAccount);
+    insufficientMoney(numberAccount, amount);
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     String dateTimeString = dateTime.format(formatter);
@@ -94,15 +97,34 @@ public class TransactionsDAOSql implements TransactionsDAO {
 
   }
 
-
+  /**
+   * Comprueba si el saldo de la cuenta es mayor que el importe pasado
+   * @param numberAccount, amount
+   * @return boolean
+   * @throws DAOException, SQLEXception
+   */
+  private boolean insufficientMoney(int numberAccount, int amount) throws SQLException, DAOException {
+    if (movementDAOSql.balance(numberAccount) < amount) {
+      throw new DAOException("saldo insuficiente para ese importe");
+    }
+    return true;
+  }
+  
+/** Realiza una transferencia desde una cuenta a otra , con un importe y concepto dado.
+ * @param numberAccount, amount, transferAccountNumber, concept
+ * @throws DAOException, SQLException
+ * 
+ */
   @Override
   public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) throws Exception {
     ammountIsNegative(amount);
     accountDAOSql.isActive(numberAccount);
+    insufficientMoney(numberAccount, amount);
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     String dateTimeString = dateTime.format(formatter);
     int amountWhitdraw = amount*(-1);
+    
     String sql = "INSERT INTO movements VALUES(null, " +numberAccount+ ", " +amountWhitdraw+ ", '" +dateTimeString+ "', 'transferencia realizada', "+transferAccountNumber+", '" +concept+ "')";
     try {
       executeUpdate(sql);
@@ -116,7 +138,8 @@ public class TransactionsDAOSql implements TransactionsDAO {
     } catch (DAOException | SQLException e) {
       throw new DAOException("No se ha podido realizar el ingreso de la transferencia");
     }
-
   }
 
+  
+  
 }

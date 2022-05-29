@@ -3,6 +3,7 @@ package presentation;
 import static util.Util.readInt;
 import static util.Util.readStr;
 import java.sql.SQLException;
+import java.util.List;
 import business.AccountManager;
 import business.CustomerManager;
 import business.Movement;
@@ -66,6 +67,7 @@ public class MovementManagement {
     transactionsManager.deposit(numberAccount, amount, concept);
     //int balance = transactionsManager.balance(numberAccount);
     //System.out.println("El saldo actualizado es :" + balance);
+    System.out.println();
   }
   
   private void withdrawMoney() throws Exception {
@@ -75,6 +77,7 @@ public class MovementManagement {
     transactionsManager.withdraw(numberAccount, amount, concept);
     //int balance = movementManager.balance(numberAccount);
     //System.out.println("El saldo actualizado es :" + balance);
+    System.out.println();
   }
   
   private void transferMoney() throws Exception {
@@ -85,18 +88,22 @@ public class MovementManagement {
     transactionsManager.transfer(numberAccount, amount, transferAccountNumber, concept);
     //int balance = movementManager.balance(numberAccount);
     //System.out.println("El saldo actualizado es :" + balance);
+    System.out.println();
   }
   
   private void showAccount() throws DAOException {
     int numberAccount = readInt("Introduce el número de cuenta ");
-    Movement movements = movementManager.getAll(numberAccount);
+    List<Movement> movements = movementManager.list(numberAccount);
+    //Movement movements = movementManager.getAll(numberAccount);
     System.out.println(movements);
+    System.out.println();
   }
   
   private void balance() throws DAOException, SQLException {
     int numberAccount = readInt("Introduce el número de cuenta ");
     int balance = movementManager.balance(numberAccount);
     System.out.println("Su saldo actual es: " + balance + " denarios");
+    System.out.println();
   }
   
   private Menu createMenu() {

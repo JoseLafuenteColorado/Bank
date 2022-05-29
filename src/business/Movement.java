@@ -1,6 +1,7 @@
 package business;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 public class Movement {
@@ -72,15 +73,14 @@ public class Movement {
    this.type = type;
    this.concept = concept;
  }
-  
-  
 
   @Override
   public String toString() {
-    return "Movement [numberAccount=" + numberAccount + ", amount=" + amount + ", dateTime="
-        + dateTime + ", type=" + type + ", transferAccountNumber=" + transferAccountNumber
-        + ", concept=" + concept + ", dateTimeString=" + dateTimeString + "]";
+    return "Movement [numberMovement=" + numberMovement + ", numberAccount=" + numberAccount
+        + ", amount=" + amount + ", dateTimeString=" + dateTimeString + ", type=" + type
+        + ", transferAccountNumber=" + transferAccountNumber + ", concept=" + concept + "]" +  "\n";
   }
+  
 
   public int getNumberMovement() {
     return numberAccount;
@@ -114,5 +114,27 @@ public class Movement {
     return dateTimeString;
   }
 
+  @Override
+  public int hashCode() {
+    return Objects.hash(dateTime, dateTimeString);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Movement other = (Movement) obj;
+    return Objects.equals(dateTime, other.dateTime)
+        && Objects.equals(dateTimeString, other.dateTimeString);
+  }
+
+  
+  
+  
+  
 }
 
