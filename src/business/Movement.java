@@ -114,11 +114,5 @@ public class Movement {
     return dateTimeString;
   }
 
-  
-  
-  
-  
-  
-  
 }
 

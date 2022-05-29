@@ -15,6 +15,7 @@ import exceptions.DAOException;
 
 public class TransactionsDAOSql implements TransactionsDAO {
   private Connection connection;
+  private AccountDAOSql accountDAOSql;
 
 
   public TransactionsDAOSql(Connection connection) {
@@ -45,6 +46,7 @@ public class TransactionsDAOSql implements TransactionsDAO {
   @Override
   public void deposit(int numberAccount, int amount, String concept) throws Exception {
     ammountIsNegative(amount);
+    accountDAOSql.isActive(numberAccount);
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     String dateTimeString = dateTime.format(formatter);
@@ -78,6 +80,7 @@ public class TransactionsDAOSql implements TransactionsDAO {
   @Override
   public void withdraw(int numberAccount, int amount, String concept) throws Exception {
     ammountIsNegative(amount);
+    accountDAOSql.isActive(numberAccount);
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     String dateTimeString = dateTime.format(formatter);
@@ -95,6 +98,7 @@ public class TransactionsDAOSql implements TransactionsDAO {
   @Override
   public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) throws Exception {
     ammountIsNegative(amount);
+    accountDAOSql.isActive(numberAccount);
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     String dateTimeString = dateTime.format(formatter);

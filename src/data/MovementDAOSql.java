@@ -36,7 +36,12 @@ public class MovementDAOSql implements MovementDAO{
   }
 
 
-  
+  /**
+   * Muestra el saldo de una cuenta corriente
+   * @param int numberAccount
+   * @return int balance
+   * @throws DAOException
+   */
   
   @Override
   public int balance(int numberAccount) throws SQLException, DAOException {
@@ -52,8 +57,14 @@ public class MovementDAOSql implements MovementDAO{
     }
   }
 
+  /**
+   * Muestra todos los movimientos de una cuenta
+   * @param int numberAccount
+   * @return resulSet de la tabla Movements
+   * @throws DAOException
+   */
   @Override
-  public Movement get(int numberAccount) throws DAOException {
+  public Movement getAll(int numberAccount) throws DAOException {
     String sql = "SELECT * FROM movements WHERE numberAccount = '" + numberAccount + "'";
     try (Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql)) {

@@ -47,7 +47,7 @@ public class AccountManager {
     return accountDAO.getCustomer(numberAccount);
   }
   
-  public boolean isActive(int numberAccount) throws DAOException {
+  public boolean isActive(int numberAccount) throws DAOException, SQLException {
     return accountDAO.isActive(numberAccount);
   }
   

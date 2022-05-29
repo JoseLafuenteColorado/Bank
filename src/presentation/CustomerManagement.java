@@ -1,7 +1,7 @@
 package presentation;
 
 /**
- * Programa que gestiona los clientes
+ * Programa que gestiona los clientes, utilizado por un empleado de bajo nivel.
  */
 
 import static util.Util.readStr;

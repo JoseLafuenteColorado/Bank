@@ -139,9 +139,10 @@ public class AccountDAOSql implements AccountDAO{
 
   /**
    * Nos dice si la cuenta está activa
+   * @throws SQLException 
    */
   @Override
-  public boolean isActive(int numberAccount) throws DAOException {
+  public boolean isActive(int numberAccount) throws DAOException, SQLException {
     String sql = "SELECT stage FROM accounts WHERE number = '" + numberAccount + "'";
     try(Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql)) {
@@ -149,8 +150,8 @@ public class AccountDAOSql implements AccountDAO{
         throw new DAOException("La cuenta " + numberAccount + " No está activa");
       }
       return true;
-    } catch (SQLException e) {
-      throw new DAOException(e);
+    } catch (DAOException e) {
+      throw new DAOException("Cuenta no activa");
     }
   }
 

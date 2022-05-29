@@ -12,16 +12,8 @@ public class MovementManager {
     this.movementDAO = daoManager.getMovementDAO();
   }
 
-  public void MovementDAO(DAOManager daoManager) throws DAOException {
-    this.movementDAO = daoManager.getMovementDAO();
-  }
-
-  public void setMovementDAO(MovementDAO movementDAO) {
-    this.movementDAO = movementDAO;
-  }
-  
-  public Movement get(int numberAccount) throws DAOException {
-    return movementDAO.get(numberAccount);
+  public Movement getAll(int numberAccount) throws DAOException {
+    return movementDAO.getAll(numberAccount);
   }
 
   public int balance(int numberAccount) throws DAOException, SQLException {
