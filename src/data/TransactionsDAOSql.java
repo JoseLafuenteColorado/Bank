@@ -11,15 +11,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import business.Account;
-import business.Customer;
-import business.Movement;
-import business.Transactions;
 import exceptions.DAOException;
 
 public class TransactionsDAOSql implements TransactionsDAO {
   private Connection connection;
-  
+
 
   public TransactionsDAOSql(Connection connection) {
     this.connection = connection;
@@ -52,8 +48,7 @@ public class TransactionsDAOSql implements TransactionsDAO {
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     String dateTimeString = dateTime.format(formatter);
-    String sql = "INSERT INTO movements (numberAcount, amount, dateTime, type, transferAccountNumber, concept)"
-        + " VALUES('" + numberAccount + "', '" + amount+ "', '" + dateTimeString + "', ingreso, 0, '" + concept + "')";
+    String sql = "INSERT INTO movements VALUES(null, " +numberAccount+ ", " +amount+ ", '" +dateTimeString+ "', 'ingreso', 0, '" +concept+ "')";
     try {
       executeUpdate(sql);
     } catch (DAOException | SQLException e) {
@@ -73,28 +68,50 @@ public class TransactionsDAOSql implements TransactionsDAO {
     }
     return false;
   }
-
+  
+  /**
+   * Realiza una retirada al número de cuenta, con el importe y concepto, pasados por parámetros.
+   * @param int numberAccount, int amount, String concept
+   * @throws DAOException, SQLException
+   * 
+   */
   @Override
   public void withdraw(int numberAccount, int amount, String concept) throws Exception {
-    if (ammountIsNegative(amount) == false) {
-      LocalDateTime dateTime = LocalDateTime.now();
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-      String dateTimeString = dateTime.format(formatter);
-      amount = amount*(-1);
-      String sql = "INSERT INTO movements (numberAcount, amount, LocalDateTime, type, transferAccountNumber, concept)"
-          + " VALUES('" + numberAccount+ "', '" + amount+ "', '" + dateTimeString + "', ingreso, 0, '" + concept + "')";
-      try {
-        executeUpdate(sql);
-      } catch (DAOException | SQLException e) {
-        throw new DAOException("No se ha podido realizar el ingreso");
-      }
+    ammountIsNegative(amount);
+    LocalDateTime dateTime = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    String dateTimeString = dateTime.format(formatter);
+    amount = amount*(-1);
+    String sql = "INSERT INTO movements VALUES(null, " +numberAccount+ ", " +amount+ ", '" +dateTimeString+ "', 'retirada', 0, '" +concept+ "')";
+    try {
+      executeUpdate(sql);
+    } catch (DAOException | SQLException e) {
+      throw new DAOException("No se ha podido realizar la retirada");
     }
+
   }
 
 
   @Override
-  public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) {
- 
+  public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) throws Exception {
+    ammountIsNegative(amount);
+    LocalDateTime dateTime = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    String dateTimeString = dateTime.format(formatter);
+    int amountWhitdraw = amount*(-1);
+    String sql = "INSERT INTO movements VALUES(null, " +numberAccount+ ", " +amountWhitdraw+ ", '" +dateTimeString+ "', 'transferencia realizada', "+transferAccountNumber+", '" +concept+ "')";
+    try {
+      executeUpdate(sql);
+    } catch (DAOException | SQLException e) {
+      throw new DAOException("No se ha podido realizar la retirada para la transferencia");
+    }
+    
+    String sql2 = "INSERT INTO movements VALUES(null, " +transferAccountNumber+ ", " +amount+ ", '" +dateTimeString+ "', 'transferencia recibida', "+numberAccount+", '" +concept+ "')";
+    try {
+      executeUpdate(sql2);
+    } catch (DAOException | SQLException e) {
+      throw new DAOException("No se ha podido realizar el ingreso de la transferencia");
+    }
 
   }
 

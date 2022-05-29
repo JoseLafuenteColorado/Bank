@@ -117,15 +117,14 @@ public class AccountManagement {
     //System.out.println("El saldo actualizado es :" + balance);
   }
 
-  private void transferMoney() throws DAOException, SQLException {
+  private void transferMoney() throws Exception {
     int numberAccount = readInt("Introduce el número de cuenta ");
     int amount = readInt("Introduce el importe a transeferir ");
     int transferAccountNumber = readInt("Introduce el número de cuenta para hacerle la transferencia ");
     String concept = readStr("Introduce el concepto ");
-    //movementManager.withdraw(numberAccount, amount, concept);
-    //movementManager.deposit(transferAccountNumber, amount, concept);
-    int balance = movementManager.balance(numberAccount);
-    System.out.println("El saldo actualizado es :" + balance);
+    transactionsManager.transfer(numberAccount, amount, transferAccountNumber, concept);
+    //int balance = movementManager.balance(numberAccount);
+    //System.out.println("El saldo actualizado es :" + balance);
 
   }
   

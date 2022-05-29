@@ -31,7 +31,7 @@ public class TransactionsManager {
     public void withdraw(int numberAccount, int amount, String concept) throws Exception {
       transactionsDAO.withdraw(numberAccount, amount, concept);
     }
-    public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) throws DAOException {
+    public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) throws Exception {
       transactionsDAO.transfer(numberAccount, amount, transferAccountNumber, concept);
     }
     
