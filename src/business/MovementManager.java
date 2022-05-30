@@ -23,7 +23,10 @@ public class MovementManager {
   
   public List<Movement> list(int numberAccount) throws DAOException {
     return movementDAO.list(numberAccount);
-    
+  }
+  
+  public List<Movement> listBetweenDates(int numberAccount, String firstDate, String lastDate) throws DAOException {
+    return movementDAO.listBetweenDates(numberAccount, firstDate, lastDate);
   }
   
 

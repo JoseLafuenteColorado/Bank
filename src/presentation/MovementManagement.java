@@ -56,6 +56,7 @@ public class MovementManagement {
         case 3 -> transferMoney();
         case 4 -> showAccount();
         case 5 -> balance();
+        case 6 -> showAccountBetweenDates();
       }
     } while (option != menu.lastOption());
   }
@@ -94,7 +95,6 @@ public class MovementManagement {
   private void showAccount() throws DAOException {
     int numberAccount = readInt("Introduce el número de cuenta ");
     List<Movement> movements = movementManager.list(numberAccount);
-    //Movement movements = movementManager.getAll(numberAccount);
     System.out.println(movements);
     System.out.println();
   }
@@ -102,13 +102,23 @@ public class MovementManagement {
   private void balance() throws DAOException, SQLException {
     int numberAccount = readInt("Introduce el número de cuenta ");
     int balance = movementManager.balance(numberAccount);
-    System.out.println("Su saldo actual es: " + balance + " denarios");
+    System.out.println("Su saldo actual es: " + balance + " €");
+    System.out.println();
+  }
+  
+  private void showAccountBetweenDates() throws DAOException {
+    int numberAccount = readInt("Introduce el número de cuenta");
+    System.out.println("Para las fechas utilice el formato dd-mm-yyyy (ej:23-12-2021), por favor");
+    String firstDate = readStr("Introduce la primera fecha a mostrar");
+    String lastDate = readStr("Introduce la última fecha a mostrar");
+    List<Movement> movements = movementManager.listBetweenDates(numberAccount, firstDate, lastDate);
+    System.out.println(movements);
     System.out.println();
   }
   
   private Menu createMenu() {
     return new Menu("Gestión de Banco (Gestión Online banca personal)", "Ingreso en cuenta", 
-        "Sacar dinero", "Realizar transferencia", "Mostrar movimientos", "Saldo", "Terminar");
+        "Sacar dinero", "Realizar transferencia", "Mostrar movimientos", "Saldo", "Mostrar movimientos entre fechas", "Terminar");
   }
   
 }
