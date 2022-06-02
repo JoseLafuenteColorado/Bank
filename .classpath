@@ -8,5 +8,10 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="/home/jlc/Insync/a21lacojo@iesgrancapitan.org/Google Drive/CFGS DAW/PROG/Librerias/ojdbc11.jar"/>
 	<classpathentry kind="lib" path="/home/jlc/Insync/a21lacojo@iesgrancapitan.org/Google Drive/CFGS DAW/PROG/Librerias/sqlite-jdbc-3.36.0.3.jar"/>
+	<classpathentry kind="lib" path="/home/jlc/Insync/a21lacojo@iesgrancapitan.org/Google Drive/CFGS DAW/PROG/Librerias/commons-codec-1.15/commons-codec-1.15-sources.jar" sourcepath="/home/jlc/Insync/a21lacojo@iesgrancapitan.org/Google Drive/CFGS DAW/PROG/Librerias/commons-codec-1.15-src">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/jlc/Insync/a21lacojo@iesgrancapitan.org/Google%20Drive/CFGS%20DAW/PROG/Librerias/commons-codec-1.15/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

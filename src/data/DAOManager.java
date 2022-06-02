@@ -51,5 +51,11 @@ public class DAOManager {
     throw new DAOException("No existe conexión en la base de datos.");
   }
   
+  public CustomerAccessDAO getCustomerAccessDAO() throws DAOException {
+    if(connection != null) {
+      return new CustomerAccessDAOSql(connection);
+    }
+    throw new DAOException("No existe conexión en la base de datos.");
+  }
   
 }

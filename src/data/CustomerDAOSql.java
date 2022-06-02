@@ -46,7 +46,7 @@ public class CustomerDAOSql implements CustomerDAO{
     executeUpdate(sql);
   }
 
-  
+
 
   /**
    * Modifica los datos de un cliente en la BBDD
@@ -133,10 +133,27 @@ public class CustomerDAOSql implements CustomerDAO{
       return resultSet.next() ? 1:0;
 
     } catch (SQLException e) {
+      throw new DAOException(e);
+    }
+  }
+
+  /**
+   * Comprueba si existe un cliente en la BBDD si le pasamos un dni
+   */
+
+  public int checkCustomer(String dni) throws DAOException {
+    String sql = "SELECT * FROM customers WHERE dni = '" + dni + "'";
+    try {
+      Statement statement = connection.createStatement();
+      ResultSet resultSet = statement.executeQuery(sql);
+      return resultSet.next() ? 1:0;
+
+    } catch (SQLException e) {
       throw new DAOException(e) ;
     }
   }
 
- 
+
+
 
 }

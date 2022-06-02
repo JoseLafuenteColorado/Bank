@@ -16,7 +16,7 @@ public interface CustomerDAO {
   public List<Customer>getCustomers() throws DAOException;
   public List<Customer>getCustomers(String filter) throws DAOException;
   public int checkCustomer(Customer customer) throws DAOException;
-  
+  public int checkCustomer(String dni) throws DAOException;
   
   
   
