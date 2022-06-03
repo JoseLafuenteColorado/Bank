@@ -34,8 +34,7 @@ public class MovementManagement {
 
     /* doy de alta a algunos clientes en la aplicación on-line, para ello necesito crear: 
       registerCustomer();
-      clientes probados dni:75430449V pass:prueba77  y dni:58714014M  pass: prueba2
-     
+      clientes probados dni:75430449V pass:prueba77  y dni:58714014M  pass: prueba22
     */
 
     try {
