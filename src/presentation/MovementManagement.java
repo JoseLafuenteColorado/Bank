@@ -181,11 +181,6 @@ public class MovementManagement {
     String newPassword = readStr("Introduce la nueva contraseña");
     customerAccessManager.modifyPass(dni, oldPassword, newPassword);
   }
-
-  
-  
-  
-  
   }
 
 
