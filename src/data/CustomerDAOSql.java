@@ -143,11 +143,10 @@ public class CustomerDAOSql implements CustomerDAO{
 
   public int checkCustomer(String dni) throws DAOException {
     String sql = "SELECT * FROM customers WHERE dni = '" + dni + "'";
-    try {
-      Statement statement = connection.createStatement();
-      ResultSet resultSet = statement.executeQuery(sql);
+    try (Statement statement = connection.createStatement();
+      ResultSet resultSet = statement.executeQuery(sql)) {
+      
       return resultSet.next() ? 1:0;
-
     } catch (SQLException e) {
       throw new DAOException(e) ;
     }

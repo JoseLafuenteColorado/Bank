@@ -2,6 +2,7 @@ package presentation;
 
 import static util.Util.readInt;
 import static util.Util.readStr;
+import java.util.List;
 
 /**
  * Programa que gestiona las cuentas, utilizado por un empleado de alto nivel
@@ -10,6 +11,7 @@ import static util.Util.readStr;
 
 import business.AccountManager;
 import business.CustomerManager;
+import business.Movement;
 import business.MovementManager;
 import business.TransactionsManager;
 import data.DAOManager;
@@ -62,10 +64,10 @@ public class AccountManagement {
   private void newAccount() throws Exception {
     try {
       String dni = readStr("Introduce el dni ");
-      if (accountManager.checkDni(dni) == true) {
+      if (customerManager.checkCustomer(dni) == 1) {
         accountManager.add(dni);
       }
-      System.out.println("Cuenta dada de alta");
+      
     } catch(DAOException e) {
       System.err.println("No se ha podido dar de alta a la cuenta: " + e.getMessage());
       System.out.println("Hay que dar primero al cliente de alta");
@@ -86,7 +88,9 @@ public class AccountManagement {
     int numberAccount = readInt("Introduce el número de cuenta a mostrar");
     try {
       System.out.println("Cuenta de : " + accountOwer(numberAccount));
-      System.out.println(accountManager.getAccount(numberAccount));   
+      System.out.println(accountManager.getAccount(numberAccount)); 
+      List<Movement> movements = movementManager.list(numberAccount);
+      System.out.println(movements);
     } catch (DAOException e) {
       System.err.println(e.getMessage());
     }

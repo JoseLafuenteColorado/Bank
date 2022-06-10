@@ -35,10 +35,6 @@ public class AccountManager {
     accountDAO.add(dni);
   }
   
-  public boolean checkDni(String dni) throws DAOException {
-    return accountDAO.checkDni(dni);
-  }
-  
   public void cancelAccount(int numberAccount) throws DAOException, SQLException {
     accountDAO.cancelAccount(numberAccount);
   }

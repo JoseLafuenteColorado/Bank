@@ -14,6 +14,7 @@ import exceptions.DAOException;
 
 public class AccountDAOSql implements AccountDAO{
   private Connection connection;
+  //private CustomerDAOSql customerDAOSql;
 
   public AccountDAOSql(Connection connection) {
     this.connection = connection;
@@ -26,8 +27,7 @@ public class AccountDAOSql implements AccountDAO{
    */
 
   private int executeUpdate(String sql) throws SQLException, DAOException {
-    try {
-      Statement statement = connection.createStatement();
+    try (Statement statement = connection.createStatement()) {
       return statement.executeUpdate(sql);  
     } catch (Exception e) {
       throw new DAOException(e);
@@ -44,7 +44,7 @@ public class AccountDAOSql implements AccountDAO{
     String sql = "SELECT numberAccount FROM Accounts WHERE numberAccont = '" + numberAccount + "'";
     try {
       executeUpdate(sql);
-      if (numberAccount > 0) {
+      if (executeUpdate(sql) != 0) {
         return true;
       }
 
@@ -53,22 +53,6 @@ public class AccountDAOSql implements AccountDAO{
     return false;
   }
 
-  /**
-   * Clase que chequea en la BBDD si existe un cliente comparando su dni (consulta la tabla customers y accounts)
-   */
-  @Override
-  public boolean checkDni(String dni) {
-    String sql =  "SELECT * FROM accounts CROSS JOIN customers "
-        + "ON accounts.dni= customers.dni WHERE customer.dni= '" + dni + "'";
-    try {
-      executeUpdate(sql);
-      if (dni != null) {
-        return true;
-      }
-    } catch (Exception e) {
-    }
-    return false;
-  }
 
   /**
    * Añade una cuenta pasándole el dni
@@ -78,8 +62,9 @@ public class AccountDAOSql implements AccountDAO{
     String sql = "INSERT INTO accounts (dni, stage) VALUES('" + dni + "', 1)";
     try {
       executeUpdate(sql);
+      System.out.println("Cuenta añadida");
     } catch (SQLException | DAOException e) {
-
+      System.out.println("NO se ha podido añadir la cuenta");
     }
   }
 
@@ -89,10 +74,13 @@ public class AccountDAOSql implements AccountDAO{
   @Override
   public void cancelAccount(int numberAccount) throws SQLException, DAOException  {
     String sql = "UPDATE accounts SET stage = 0 WHERE numberAccount = '" + numberAccount + "'";
-    if(executeUpdate(sql) == 0 ) {
-      throw new DAOException("No existe una cuenta con el número de cuenta " + numberAccount);
+    try {
+      executeUpdate(sql);
+    } catch (Exception e) {
+      throw new DAOException("No podido dar de baja la cuenta " + numberAccount);
     }
-    executeUpdate(sql);
+    
+    
   }
 
 

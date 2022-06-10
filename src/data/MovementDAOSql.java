@@ -47,10 +47,10 @@ public class MovementDAOSql implements MovementDAO{
         throw new DAOException("No existe movimientos para esa cuenta");
       }
 
-      while (resultSet.next()) {
+      do {
         movements.add(new Movement(resultSet.getInt("numberMovement"),resultSet.getInt("numberAccount"), resultSet.getInt("amount"), resultSet.getString("dateTime"), 
             resultSet.getString("type"), resultSet.getInt("transferAccountNumber"), resultSet.getString("concept")));
-      }
+      } while (resultSet.next());
       return movements;
     } catch (SQLException e) {
       throw new DAOException(e);

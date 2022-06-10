@@ -57,7 +57,7 @@ public class CustomerManager {
   }
   
   public void remove(Customer customer) throws DAOException {
-    if(customerDAO.checkCustomer(customer) == 0) {
+    if(customerDAO.checkCustomer(customer) == 1) {
       customerDAO.remove(customer.getDni());; 
     } else {
       throw new DAOException("El cliente tiene cuentas asociadas.");
@@ -70,6 +70,10 @@ public class CustomerManager {
   
   public List<Customer> getList(String sql) throws DAOException{
     return customerDAO.getCustomers(sql);
+  }
+
+  public int checkCustomer(String dni) throws DAOException {
+    return customerDAO.checkCustomer(dni);
   }
   
   

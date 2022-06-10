@@ -73,10 +73,10 @@ public class CustomerManagement {
   
   private void modifyCustomer() {
     try {
-      Customer customer = customerManager.get(readStr("DNI del cliente a modificar"));
+      Customer customer = customerManager.get(readStr("DNI del cliente a modificar "));
       customerManager.set(customer.getDni(), readStr("Nombre", customer.getName()), 
-          readStr("Dirección", customer.getAddress()),
-          readStr("Teléfono", customer.getPhone()));
+          "\n" + readStr("Dirección", customer.getAddress()),
+          "\n" +readStr("Teléfono", customer.getPhone()));
       System.out.println("modificación realizada");
     } 
     catch(DAOException e) {
