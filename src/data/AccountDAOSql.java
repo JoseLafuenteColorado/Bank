@@ -14,7 +14,6 @@ import exceptions.DAOException;
 
 public class AccountDAOSql implements AccountDAO{
   private Connection connection;
-  //private CustomerDAOSql customerDAOSql;
 
   public AccountDAOSql(Connection connection) {
     this.connection = connection;
@@ -79,8 +78,8 @@ public class AccountDAOSql implements AccountDAO{
     } catch (Exception e) {
       throw new DAOException("No podido dar de baja la cuenta " + numberAccount);
     }
-    
-    
+
+
   }
 
 
@@ -131,17 +130,20 @@ public class AccountDAOSql implements AccountDAO{
    */
   @Override
   public boolean isActive(int numberAccount) throws DAOException, SQLException {
-    String sql = "SELECT stage FROM accounts WHERE number = '" + numberAccount + "'";
+    String sql = "SELECT stage FROM accounts WHERE numberAccount = '" + numberAccount + "'";
     try(Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql)) {
-      if (resultSet.getInt("stage") == 0) {
-        throw new DAOException("La cuenta " + numberAccount + " No está activa");
+      if (resultSet.getInt("stage") == 1) {
+        return true;
       }
-      return true;
-    } catch (DAOException e) {
-      throw new DAOException("Cuenta no activa");
+      System.out.println("La cuenta no está activa");
+      return false;
+
+    } catch (SQLException e) {
+      throw new DAOException("No se podido comprobar el estado de la cuenta");
     }
-  }
+
+  } 
 
 
 

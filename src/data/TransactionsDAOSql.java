@@ -47,8 +47,8 @@ public class TransactionsDAOSql implements TransactionsDAO {
    */
   @Override
   public void deposit(int numberAccount, int amount, String concept) throws Exception {
-    ammountIsNegative(amount);
-    if (accountDAOSql.isActive(numberAccount) == true) {
+    if (ammountIsNegative(amount) == false /*&& accountDAOSql.isActive(numberAccount) 
+        == true*/) {
       LocalDateTime dateTime = LocalDateTime.now();
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
       String dateTimeString = dateTime.format(formatter);
@@ -63,18 +63,7 @@ public class TransactionsDAOSql implements TransactionsDAO {
 
   }
 
-  /**
-   * Comprueba que el importe pasado no sea negativo
-   * @param amount
-   * @return false
-   * @throws DAOException
-   */
-  private boolean ammountIsNegative(int amount) throws DAOException {
-    if (amount <= 0) {
-      throw new DAOException ("El importe tiene que ser mayor que 0");
-    }
-    return false;
-  }
+  
 
   /**
    * Realiza una retirada al número de cuenta, con el importe y concepto, pasados por parámetros.
@@ -84,7 +73,9 @@ public class TransactionsDAOSql implements TransactionsDAO {
    */
   @Override
   public void withdraw(int numberAccount, int amount, String concept) throws Exception {
-    if (transactionsDAOSql.ammountIsNegative(amount) == false && accountDAOSql.isActive(numberAccount) == true && sufficientMoney(numberAccount, amount) == true ) {
+    //boolean accountActiveNow = accountDAOSql.isActive(numberAccount); no entra en el método.
+    //boolean sufficientMoneyNow = sufficientMoney(numberAccount, amount); no entra en el método balance de MovementDAOSql
+    if (ammountIsNegative(amount) == false /*&& accountActiveNow == true && sufficientMoneyNow == true*/) {
       LocalDateTime dateTime = LocalDateTime.now();
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
       String dateTimeString = dateTime.format(formatter);
@@ -99,19 +90,7 @@ public class TransactionsDAOSql implements TransactionsDAO {
     }
   }
 
-  /**
-   * Comprueba si el saldo de la cuenta es mayor que el importe pasado
-   * @param numberAccount, amount
-   * @return boolean
-   * @throws DAOException, SQLEXception
-   */
-  private boolean sufficientMoney(int numberAccount, int amount) throws SQLException, DAOException {
-    int balance = movementDAOSql.balance(numberAccount);
-    if (balance < amount) {
-      throw new DAOException("saldo insuficiente para ese importe");
-    }
-    return true;
-  }
+  
 
   /** Realiza una transferencia desde una cuenta a otra , con un importe y concepto dado.
    * @param numberAccount, amount, transferAccountNumber, concept
@@ -121,8 +100,8 @@ public class TransactionsDAOSql implements TransactionsDAO {
   @Override
   public void transfer(int numberAccount, int amount, int transferAccountNumber, String concept) throws Exception {
     ammountIsNegative(amount);
-    accountDAOSql.isActive(numberAccount);
-    sufficientMoney(numberAccount, amount);
+    //accountDAOSql.isActive(numberAccount); no entra en el método
+    //sufficientMoney(numberAccount, amount); no entra en el método MovemenyDALSql balance
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     String dateTimeString = dateTime.format(formatter);
@@ -143,6 +122,32 @@ public class TransactionsDAOSql implements TransactionsDAO {
     }
   }
 
+  /**
+   * Comprueba que el importe pasado no sea negativo
+   * @param amount
+   * @return false
+   * @throws DAOException
+   */
+  private boolean ammountIsNegative(int amount) throws DAOException {
+    if (amount <= 0) {
+      throw new DAOException ("El importe tiene que ser mayor que 0");
+    }
+    return false;
+  }
+  
+  /**
+   * Comprueba si el saldo de la cuenta es mayor que el importe pasado
+   * @param numberAccount, amount
+   * @return boolean
+   * @throws DAOException, SQLEXception
+   */
+  private boolean sufficientMoney(int numberAccount, int amount) throws SQLException, DAOException {
+    int balance = movementDAOSql.balance(numberAccount);
+    if (balance < amount) {
+      throw new DAOException("saldo insuficiente para ese importe");
+    }
+    return true;
+  }
 
 
 }
